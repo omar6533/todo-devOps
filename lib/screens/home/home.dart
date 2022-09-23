@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:mytodo/widgets/app_textfiled.dart';
 
 class Home extends StatelessWidget {
@@ -15,8 +14,8 @@ class Home extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Center(
             child: SafeArea(
-          child: ListView(
-            shrinkWrap: true,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AppTextField(
                 hinttext: 'what are you going to do?',
@@ -24,7 +23,8 @@ class Home extends StatelessWidget {
                   icon: const Icon(Icons.add),
                   onPressed: () {},
                 ),
-              )
+              ),
+              SingleChildScrollView()
             ],
           ),
         )),
