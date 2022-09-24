@@ -5,16 +5,22 @@ class AppTextField extends StatelessWidget {
   final hinttext;
   final isPassword;
   final rightIcon;
+  final textEditingController;
+  final onChanged;
   const AppTextField({
     Key? key,
     required this.hinttext,
     this.isPassword = false,
     this.rightIcon,
+    this.textEditingController,
+    this.onChanged,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+        onChanged: onChanged,
+        controller: textEditingController,
         obscureText: isPassword,
         decoration: InputDecoration(
             suffixIcon: rightIcon,

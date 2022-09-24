@@ -67,8 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '728611566746',
     projectId: 'mytodo-5197d',
     storageBucket: 'mytodo-5197d.appspot.com',
-    iosClientId:
-        '728611566746-020pcatd004jafi3eohshods97pbip44.apps.googleusercontent.com',
+    iosClientId: '728611566746-020pcatd004jafi3eohshods97pbip44.apps.googleusercontent.com',
     iosBundleId: 'com.example.mytodo',
   );
 
@@ -78,8 +77,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '728611566746',
     projectId: 'mytodo-5197d',
     storageBucket: 'mytodo-5197d.appspot.com',
-    iosClientId:
-        '728611566746-020pcatd004jafi3eohshods97pbip44.apps.googleusercontent.com',
+    iosClientId: '728611566746-020pcatd004jafi3eohshods97pbip44.apps.googleusercontent.com',
     iosBundleId: 'com.example.mytodo',
   );
 }

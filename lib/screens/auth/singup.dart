@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mytodo/controllers/auth/signup_controller.dart';
 import 'package:mytodo/screens/auth/sign.dart';
+import 'package:mytodo/services/app_snakbar.dart';
 import 'package:mytodo/widgets/app_textfiled.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -8,6 +10,7 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SignUpController _singUpController = Get.put(SignUpController());
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -27,11 +30,23 @@ class SignUpScreen extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                const AppTextField(hinttext: 'Enter your Full name'),
+                AppTextField(
+                    // onChanged: _singUpController
+                    //     .isValidFullName(_singUpController.fullName.text),
+                    hinttext: 'Enter your Full name',
+                    textEditingController: _singUpController.fullName),
                 const SizedBox(height: 16),
-                const AppTextField(hinttext: 'Enter your email'),
+                AppTextField(
+                  // onChanged: _singUpController
+                  //     .isValidEmail(_singUpController.email.text),
+                  hinttext: 'Enter your email',
+                  textEditingController: _singUpController.email,
+                ),
                 const SizedBox(height: 16),
-                const AppTextField(
+                AppTextField(
+                  // onChanged: _singUpController
+                  //     .isValidPassword(_singUpController.password.text),
+                  textEditingController: _singUpController.password,
                   hinttext: 'Enter your password',
                   isPassword: true,
                 ),
@@ -41,7 +56,24 @@ class SignUpScreen extends StatelessWidget {
                 MaterialButton(
                   textColor: Colors.white,
                   color: Colors.blue,
-                  onPressed: () => Get.to(const SignInScreen()),
+                  onPressed: () {
+                    if (_singUpController
+                            .isValidEmail(_singUpController.email.text) &&
+                        _singUpController
+                            .isValidPassword(_singUpController.password.text) &&
+                        _singUpController
+                            .isValidFullName(_singUpController.fullName.text)) {
+                      //if there is no error will call sign up controller and go the sing in screen
+                      var message = _singUpController.singUp(
+                          _singUpController.email.text,
+                          _singUpController.password.text);
+                    } else {
+                      appSnackBar(
+                          'wrong email or password or full name',
+                          'please enter a valid email or a valid password or full name',
+                          Colors.red);
+                    }
+                  },
                   child: const Text('Sign up'),
                 )
               ])),

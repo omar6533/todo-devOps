@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mytodo/controllers/auth/signin_controller.dart';
 import 'package:mytodo/screens/auth/singup.dart';
 import 'package:mytodo/screens/home/home.dart';
+import 'package:mytodo/services/app_snakbar.dart';
 import 'package:mytodo/widgets/app_textfiled.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -9,6 +11,7 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SinginController _signinController = Get.put(SinginController());
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -28,9 +31,12 @@ class SignInScreen extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                const AppTextField(hinttext: 'Enter your email'),
+                AppTextField(
+                    hinttext: 'Enter your email',
+                    textEditingController: _signinController.email),
                 const SizedBox(height: 16),
-                const AppTextField(
+                AppTextField(
+                  textEditingController: _signinController.password,
                   hinttext: 'Enter your password',
                   isPassword: true,
                 ),
@@ -57,7 +63,18 @@ class SignInScreen extends StatelessWidget {
                   textColor: Colors.white,
                   color: Colors.blue,
                   onPressed: () {
-                    Get.to(const Home());
+                    if (_signinController
+                            .isValidEmail(_signinController.email.text) &&
+                        _signinController
+                            .isValidPassword(_signinController.password.text)) {
+                      _signinController.signIn(_signinController.email.text,
+                          _signinController.password.text);
+                    } else {
+                      appSnackBar(
+                          'wrong email or password',
+                          'please enter a valid email or a valid password',
+                          Colors.red);
+                    }
                   },
                   child: const Text('Sign in'),
                 )
