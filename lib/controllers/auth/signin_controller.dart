@@ -9,12 +9,26 @@ import 'package:mytodo/services/app_snakbar.dart';
 class SinginController extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  bool isLogedin = false;
 
   isValidEmail(email) {
     bool valid = false;
     valid = GetUtils.isEmail(email.toString());
 
     return valid;
+  }
+
+  issUserLogedin() {
+    var user = FirebaseAuth.instance.currentUser;
+    // print('---------------------------------$user');
+    if (user != null) {
+      isLogedin = true;
+      update();
+    } else {
+      isLogedin = false;
+      update();
+    }
+    return isLogedin;
   }
 
   isValidPassword(password) {
@@ -30,7 +44,6 @@ class SinginController extends GetxController {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      Get.to(Home());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         appSnackBar('error', 'No user found for that email.', Colors.red);

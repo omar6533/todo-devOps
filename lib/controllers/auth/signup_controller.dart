@@ -11,6 +11,7 @@ class SignUpController extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController fullName = TextEditingController();
+  late GlobalKey<FormState> formState;
 
   isValidEmail(email) {
     bool valid = false;
@@ -21,7 +22,7 @@ class SignUpController extends GetxController {
 
   isValidPassword(password) {
     bool valid = false;
-    if (password.isNotEmpty) {
+    if (password.isNotEmpty && password.length >= 8) {
       valid = true;
     }
 
@@ -44,8 +45,7 @@ class SignUpController extends GetxController {
         email: email,
         password: password,
       );
-      appSnackBar('thank you!', 'your account was created', Colors.green);
-      Get.to(const SignInScreen());
+      return credential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         // print('The password provided is too weak.');

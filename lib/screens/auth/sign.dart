@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mytodo/controllers/auth/signin_controller.dart';
@@ -59,24 +60,38 @@ class SignInScreen extends StatelessWidget {
                         child: const Text('click here'))
                   ],
                 ),
-                MaterialButton(
-                  textColor: Colors.white,
-                  color: Colors.blue,
-                  onPressed: () {
-                    if (_signinController
-                            .isValidEmail(_signinController.email.text) &&
-                        _signinController
-                            .isValidPassword(_signinController.password.text)) {
-                      _signinController.signIn(_signinController.email.text,
-                          _signinController.password.text);
-                    } else {
-                      appSnackBar(
-                          'wrong email or password',
-                          'please enter a valid email or a valid password',
-                          Colors.red);
-                    }
-                  },
-                  child: const Text('Sign in'),
+                GetBuilder<SinginController>(
+                  builder: (controller) => MaterialButton(
+                    textColor: Colors.white,
+                    color: Colors.blue,
+                    onPressed: () {
+                      if (_signinController
+                              .isValidEmail(_signinController.email.text) &&
+                          _signinController.isValidPassword(
+                              _signinController.password.text)) {
+                        //calling sign in controller
+                        _signinController.signIn(_signinController.email.text,
+                            _signinController.password.text);
+                        //if the user is loged in go to home screen
+                        if (_signinController.issUserLogedin()) {
+                          print(
+                              '-------------------------------------------${_signinController.isLogedin}');
+                          Get.to(Home());
+                        }
+                      } else {
+                        var user = FirebaseAuth.instance.currentUser;
+                        print(
+                            '-------------------------------------------${_signinController.issUserLogedin()}');
+                        // print('---------------------------------$user');
+
+                        appSnackBar(
+                            'wrong email or password',
+                            'please enter a valid email or a valid password',
+                            Colors.yellow);
+                      }
+                    },
+                    child: const Text('Sign in'),
+                  ),
                 )
               ])),
         ),
