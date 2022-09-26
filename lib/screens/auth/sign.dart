@@ -8,7 +8,8 @@ import 'package:mytodo/services/app_snakbar.dart';
 import 'package:mytodo/widgets/app_textfiled.dart';
 
 class SignInScreen extends StatelessWidget {
-  const SignInScreen({super.key});
+  SignInScreen({super.key});
+  GlobalKey<FormState> formState = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +33,45 @@ class SignInScreen extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                AppTextField(
-                    hinttext: 'Enter your email',
-                    textEditingController: _signinController.email),
-                const SizedBox(height: 16),
-                AppTextField(
-                  textEditingController: _signinController.password,
-                  hinttext: 'Enter your password',
-                  isPassword: true,
-                ),
+                Form(
+                    key: formState,
+                    child: Column(
+                      children: [
+                        AppTextField(
+                            validator: (val) {
+                              bool valid = _signinController.isValidEmail(val);
+                              if (valid == false) {
+                                return 'please enter a valid email';
+                              }
+                            },
+                            onSaved: (newVal) {
+                              _signinController.email = newVal;
+                            },
+                            // onChanged: (val) {
+                            //   _signinController.isValidEmail(val);
+                            // },
+                            hinttext: 'Enter your email',
+                            textEditingController: _signinController.email),
+                        const SizedBox(height: 16),
+                        AppTextField(
+                          validator: (val) {
+                            bool valid = _signinController.isValidPassword(val);
+                            if (valid == false) {
+                              return 'please enter a valid password at least 8 character';
+                            }
+                          },
+                          onSaved: (newVal) {
+                            _signinController.password = newVal;
+                          },
+                          // onChanged: (val) {
+                          //   _signinController.isValidPassword(val);
+                          // },
+                          textEditingController: _signinController.password,
+                          hinttext: 'Enter your password',
+                          isPassword: true,
+                        ),
+                      ],
+                    )),
                 const SizedBox(
                   height: 8,
                 ),
@@ -64,30 +95,17 @@ class SignInScreen extends StatelessWidget {
                   builder: (controller) => MaterialButton(
                     textColor: Colors.white,
                     color: Colors.blue,
-                    onPressed: () {
-                      if (_signinController
-                              .isValidEmail(_signinController.email.text) &&
-                          _signinController.isValidPassword(
-                              _signinController.password.text)) {
-                        //calling sign in controller
-                        _signinController.signIn(_signinController.email.text,
-                            _signinController.password.text);
-                        //if the user is loged in go to home screen
-                        if (_signinController.issUserLogedin()) {
-                          print(
-                              '-------------------------------------------${_signinController.isLogedin}');
+                    onPressed: () async {
+                      var current = formState.currentState;
+                      if (current!.validate()) {
+                        UserCredential response =
+                            await _signinController.signIn(
+                                _signinController.email.text,
+                                _signinController.password.text);
+                        print('----------------------------${response.user}');
+                        if (response != null) {
                           Get.to(Home());
                         }
-                      } else {
-                        var user = FirebaseAuth.instance.currentUser;
-                        print(
-                            '-------------------------------------------${_signinController.issUserLogedin()}');
-                        // print('---------------------------------$user');
-
-                        appSnackBar(
-                            'wrong email or password',
-                            'please enter a valid email or a valid password',
-                            Colors.yellow);
                       }
                     },
                     child: const Text('Sign in'),
