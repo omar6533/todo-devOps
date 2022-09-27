@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/utils.dart';
+import 'package:mytodo/screens/auth/sign.dart';
 import 'package:mytodo/screens/home/home.dart';
 import 'package:mytodo/services/app_snakbar.dart';
 
@@ -52,6 +53,15 @@ class SinginController extends GetxController {
         appSnackBar(
             'error', 'Wrong password provided for that user.', Colors.red);
       }
+    }
+  }
+
+  singOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      Get.off(SignInScreen());
+    } catch (e) {
+      appSnackBar('Erorr', e, Colors.red);
     }
   }
 }

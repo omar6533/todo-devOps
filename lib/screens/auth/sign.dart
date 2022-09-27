@@ -45,7 +45,7 @@ class SignInScreen extends StatelessWidget {
                               }
                             },
                             onSaved: (newVal) {
-                              _signinController.email = newVal;
+                              _signinController.email.text = newVal;
                             },
                             // onChanged: (val) {
                             //   _signinController.isValidEmail(val);
@@ -61,7 +61,7 @@ class SignInScreen extends StatelessWidget {
                             }
                           },
                           onSaved: (newVal) {
-                            _signinController.password = newVal;
+                            _signinController.password.text = newVal;
                           },
                           // onChanged: (val) {
                           //   _signinController.isValidPassword(val);
@@ -98,13 +98,14 @@ class SignInScreen extends StatelessWidget {
                     onPressed: () async {
                       var current = formState.currentState;
                       if (current!.validate()) {
+                        current.save();
                         UserCredential response =
                             await _signinController.signIn(
                                 _signinController.email.text,
                                 _signinController.password.text);
                         print('----------------------------${response.user}');
                         if (response != null) {
-                          Get.to(Home());
+                          Get.off(Home());
                         }
                       }
                     },

@@ -86,6 +86,7 @@ class SignUpScreen extends StatelessWidget {
                   onPressed: () async {
                     var current = formState.currentState;
                     if (current!.validate()) {
+                      current.save();
                       UserCredential response = await _singUpController.singUp(
                           _singUpController.email.text,
                           _singUpController.password.text);
