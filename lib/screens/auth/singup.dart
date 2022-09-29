@@ -53,7 +53,7 @@ class SignUpScreen extends StatelessWidget {
                             }
                           },
                           onSaved: (val) {
-                            _singUpController.email = val;
+                            _singUpController.email.text = val;
                           },
                           hinttext: 'Enter your email',
                           textEditingController: _singUpController.email,
@@ -69,7 +69,7 @@ class SignUpScreen extends StatelessWidget {
                             }
                           },
                           onSaved: (val) {
-                            _singUpController.password = val;
+                            _singUpController.password.text = val;
                           },
                           textEditingController: _singUpController.password,
                           hinttext: 'Enter your password',
