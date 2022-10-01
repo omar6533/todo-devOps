@@ -15,13 +15,28 @@ class HomeController extends GetxController {
     }
   }
 
+  getUserNotes() {}
+
   Future<String> getUserEmail() async {
     try {
-      User? user = await FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        return user.email.toString();
+      String? userEmail = await FirebaseAuth.instance.currentUser!.email;
+      if (userEmail != null) {
+        return userEmail;
       } else {
-        return '';
+        return 'coud not get user Email ';
+      }
+    } catch (e) {
+      return appSnackBar('Erorr', e, Colors.red);
+    }
+  }
+
+  Future<String> getUserId() async {
+    try {
+      String? uid = await FirebaseAuth.instance.currentUser!.uid;
+      if (uid != null) {
+        return uid;
+      } else {
+        return 'could not get user id ';
       }
     } catch (e) {
       return appSnackBar('Erorr', e, Colors.red);

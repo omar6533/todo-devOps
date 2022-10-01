@@ -5,18 +5,13 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'dart:ffi';
-
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mytodo/controllers/auth/signup_controller.dart';
-import 'package:mytodo/services/app_snakbar.dart';
 
 class AuthSingUp extends Mock implements SignUpController {
+  AuthSingUp _singUp = AuthSingUp();
   @override
   isValidEmail(email) {
     bool valid = false;
@@ -37,25 +32,16 @@ class AuthSingUp extends Mock implements SignUpController {
 
   @override
   singUp(String email, String password) async {
-    try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      return credential;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        // print('The password provided is too weak.');
-        appSnackBar('error', 'The password provided is too weak.', Colors.red);
-      } else if (e.code == 'email-already-in-use') {
-        // print('The account already exists for that email.');
-        appSnackBar(
-            'error', 'The account already exists for that email..', Colors.red);
-      }
-    } catch (e) {
-      print(e);
+    var resonpse = _singUp.singUp(email, password);
+    print(resonpse);
+    var hasValue;
+
+    if (resonpse != null) {
+      hasValue = true;
+    } else {
+      hasValue = false;
     }
+    return hasValue;
   }
 }
 
@@ -73,6 +59,12 @@ void main() {
     () {
       expect(testSingup.isValidPassword('12345678'), true);
       expect(testSingup.isValidPassword(''), false);
+    },
+  );
+  test(
+    'singUP ',
+    () {
+      expectLater(testSingup.singUp('omar11@gmail.', '12456780'), false);
     },
   );
 }
