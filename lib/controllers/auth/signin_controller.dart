@@ -45,12 +45,15 @@ class SinginController extends GetxController {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      return credential;
+      if (credential != null) {
+        return credential;
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        appSnackBar('error', 'No user found for that email.', Colors.red);
+        return appSnackBar(
+            'error', 'No user found for that email.', Colors.red);
       } else if (e.code == 'wrong-password') {
-        appSnackBar(
+        return appSnackBar(
             'error', 'Wrong password provided for that user.', Colors.red);
       }
     }

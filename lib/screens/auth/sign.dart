@@ -99,11 +99,11 @@ class SignInScreen extends StatelessWidget {
                       var current = formState.currentState;
                       if (current!.validate()) {
                         current.save();
-                        UserCredential response =
+                        UserCredential? response =
                             await _signinController.signIn(
                                 _signinController.email.text,
                                 _signinController.password.text);
-                        print('----------------------------${response.user}');
+                        print('23421231234242342342432 $response');
                         if (response != null) {
                           Get.off(Home());
                         }
