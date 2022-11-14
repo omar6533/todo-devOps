@@ -41,6 +41,7 @@ dependencies:
   firebase_auth: ^3.10.0
   cloud_firestore: ^3.4.9
   mockito: ^5.3.2
+  fast_flutter_driver: ^3.0.0+1
 
 dev_dependencies:
   flutter_test:
