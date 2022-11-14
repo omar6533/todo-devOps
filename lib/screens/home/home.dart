@@ -122,38 +122,35 @@ class _HomeState extends State<Home> {
                   const SizedBox(
                     height: 32,
                   ),
-                  StreamBuilder(
-                      stream: _homeController.myCollection(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: _homeController.myCollection().snapshots().length,
-                            itemBuilder: (context, index) => Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12),
-                                // color: Colors.blue,
-                              ),
-                              margin: const EdgeInsets.all(8),
-                              child: ListTile(
-                                iconColor: Colors.blue,
-                                leading: Icon(Icons.note),
-                                title: Text(
-                                  '${snapshot.data.toString()}',
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                trailing: IconButton(
-                                    onPressed: () {
-                                      print('object');
-                                    },
-                                    icon: Icon(Icons.delete)),
-                              ),
+                  GetBuilder<HomeController>(
+                    builder: (controller) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: 5,
+                        itemBuilder: (context, index) => Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            // color: Colors.blue,
+                          ),
+                          margin: const EdgeInsets.all(8),
+                          child: ListTile(
+                            iconColor: Colors.blue,
+                            leading: Icon(Icons.note),
+                            title: Text(
+                              'new note',
+                              style: TextStyle(color: Colors.black),
                             ),
-                          );
-                        } else
-                          return Text('No data found');
-                      })
+                            trailing: IconButton(
+                                onPressed: () {
+                                  print('object');
+                                },
+                                icon: Icon(Icons.delete)),
+                          ),
+                        ),
+                      );
+                    },
+                  )
                 ],
               ),
             ],
