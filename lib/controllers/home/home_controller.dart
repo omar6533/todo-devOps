@@ -8,35 +8,64 @@ import 'package:mytodo/services/app_snakbar.dart';
 
 class HomeController extends GetxController {
   TextEditingController textEditingControllerNote = TextEditingController();
+  late String curretUserEail;
   SinginController _singinController = Get.find();
 
-  addUserNote(String note) async {
+  late RxString userEmail;
+  late bool isloading;
+  @override
+  void initState() {
+    var lengthOfuserNotes = FirebaseFirestore.instance
+        .collection('ToDo')
+        .where('userEmail', isEqualTo: FirebaseAuth.instance.currentUser?.email)
+        .snapshots()
+        .length;
+   
+  }
+
+  addUserNote(String note, String? email) async {
     try {
+      isloading = true;
       CollectionReference mycollectoin =
           await FirebaseFirestore.instance.collection('ToDo');
-      mycollectoin.add({
-        "note": "${note}",
-        "userEmail": "${_singinController.email.text.toLowerCase()}"
-      });
+      mycollectoin.add({"note": "${note}", "userEmail": "${email}"});
+
+      isloading = false;
     } catch (e) {
+      Get.back();
       appSnackBar('Erorr', e, Colors.red);
     }
   }
 
-  getUserNotes() {
-    User? userInfo = FirebaseAuth.instance.currentUser;
-    if (User == null) {
-      return null;
-    } else {
-      return userInfo;
-    }
+  myCollection() async {
+    var mycollectoin = await FirebaseFirestore.instance
+        .collection('ToDo')
+        .where('userEmail',
+            isEqualTo: FirebaseAuth.instance.currentUser?.email.toString());
+
+    return mycollectoin;
   }
 
-  Future<String> getUserEmail() async {
+  getUserNotes() async {
+    var mycollectoin;
     try {
-      String? userEmail = await FirebaseAuth.instance.currentUser!.email;
+      mycollectoin = FirebaseFirestore.instance
+          .collection('ToDo')
+          .where('userEmail', isEqualTo: _singinController.email.text)
+          .snapshots();
+    } catch (e) {
+      print('error when fitching data');
+    }
+
+    return mycollectoin;
+  }
+
+  getUserEmail() async {
+    try {
+      userEmail = (await FirebaseAuth.instance.currentUser!.email) as RxString;
+
       if (userEmail != null) {
-        return userEmail;
+        return userEmail.value;
       } else {
         return 'coud not get user Email ';
       }

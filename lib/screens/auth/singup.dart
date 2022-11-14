@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mytodo/controllers/auth/signup_controller.dart';
 import 'package:mytodo/screens/auth/sign.dart';
 import 'package:mytodo/services/app_snakbar.dart';
+import 'package:mytodo/services/loading.dart';
 import 'package:mytodo/widgets/app_textfiled.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -87,11 +88,17 @@ class SignUpScreen extends StatelessWidget {
                     var current = formState.currentState;
                     if (current!.validate()) {
                       current.save();
+                      showLoading(context);
                       UserCredential response = await _singUpController.singUp(
                           _singUpController.email.text,
                           _singUpController.password.text);
+                      closeLoding();
+                      // ignore: avoid_print
+                      print('---------------$response');
 
+                      // ignore: unnecessary_null_comparison
                       if (response != null) {
+                        // ignore: avoid_print
                         print(
                             '-------------------------------${response.user}');
                         appSnackBar('thank you!', 'your account was created',
