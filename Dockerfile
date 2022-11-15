@@ -29,4 +29,4 @@ USER root
 
 # Run basic check to download Dart SDK
 RUN flutter doctor
-RUN flutter config --no-analytics
+# RUN flutter config --no-analytics
