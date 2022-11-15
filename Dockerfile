@@ -10,7 +10,14 @@ ENTRYPOINT [ "todoapp" ]
 RUN mkdir /home/flutterdev
 WORKDIR /home/flutterdev
 USER root
+xdgfds
+sf
+COPY sd
 
+dssd
+
+sd
+d dest
 # Prepare Android directories and system variables
 RUN mkdir -p Android/sdk
 ENV ANDROID_SDK_ROOT /home/flutterdev/Android/sdk
