@@ -4,20 +4,11 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Prerequisites
 RUN apt update && apt install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget
 
-ENTRYPOINT [ "todoapp" ]
-
 # Set up user as root
 RUN mkdir /home/flutterdev
 WORKDIR /home/flutterdev
 USER root
-xdgfds
-sf
-COPY sd
 
-dssd
-
-sd
-d dest
 # Prepare Android directories and system variables
 RUN mkdir -p Android/sdk
 ENV ANDROID_SDK_ROOT /home/flutterdev/Android/sdk
