@@ -6,11 +6,12 @@ import 'package:get/utils.dart';
 import 'package:mytodo/screens/auth/sign.dart';
 import 'package:mytodo/screens/home/home.dart';
 import 'package:mytodo/services/app_snakbar.dart';
+import 'package:mytodo/services/loading.dart';
 
 class SinginController extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-  bool isLogedin = false;
+  RxBool isLoading = false.obs;
 
   isValidEmail(email) {
     bool valid = false;
@@ -23,13 +24,13 @@ class SinginController extends GetxController {
     var user = FirebaseAuth.instance.currentUser;
     // print('---------------------------------$user');
     if (user != null) {
-      isLogedin = true;
+      isLoading = true.obs;
       update();
     } else {
-      isLogedin = false;
+      isLoading = false.obs;
       update();
     }
-    return isLogedin;
+    return isLoading;
   }
 
   isValidPassword(password) {
@@ -43,18 +44,24 @@ class SinginController extends GetxController {
 
   signIn(email, password) async {
     try {
-      final credential = await FirebaseAuth.instance
+      final response = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      if (credential != null) {
-        return credential;
-      }
+
+      return response;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        return appSnackBar(
-            'error', 'No user found for that email.', Colors.red);
+        closeLoding();
+        // ignore: avoid_print
+        print('No user found for that email.');
+        Get.dialog(
+            appSnackBar('error', 'No user found for that email', Colors.red));
       } else if (e.code == 'wrong-password') {
-        return appSnackBar(
-            'error', 'Wrong password provided for that user.', Colors.red);
+        closeLoding();
+
+        // ignore: avoid_print
+        print('Wrong password provided for that user.');
+        Get.dialog(appSnackBar(
+            'error', 'Wrong password provided for that user.', Colors.red));
       }
     }
   }
