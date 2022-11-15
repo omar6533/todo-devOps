@@ -40,6 +40,7 @@ class SignInScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         AppTextField(
+                            key: const ValueKey('email'),
                             validator: (val) {
                               bool valid = _signinController.isValidEmail(val);
                               if (valid == false) {
@@ -56,6 +57,7 @@ class SignInScreen extends StatelessWidget {
                             textEditingController: _signinController.email),
                         const SizedBox(height: 16),
                         AppTextField(
+                          key: const ValueKey('password'),
                           validator: (val) {
                             bool valid = _signinController.isValidPassword(val);
                             if (valid == false) {
@@ -94,6 +96,7 @@ class SignInScreen extends StatelessWidget {
                   ],
                 ),
                 MaterialButton(
+                  key: ValueKey('login'),
                   textColor: Colors.white,
                   color: Colors.blue,
                   onPressed: () async {

@@ -52,16 +52,18 @@ class SinginController extends GetxController {
       if (e.code == 'user-not-found') {
         closeLoding();
         // ignore: avoid_print
-        print('No user found for that email.');
         Get.dialog(
             appSnackBar('error', 'No user found for that email', Colors.red));
       } else if (e.code == 'wrong-password') {
         closeLoding();
 
         // ignore: avoid_print
-        print('Wrong password provided for that user.');
+        // print('Wrong password provided for that user.');
         Get.dialog(appSnackBar(
-            'error', 'Wrong password provided for that user.', Colors.red));
+          'error',
+          'Wrong password provided for that user.',
+          Colors.red,
+        ));
       }
     }
   }
