@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 import 'package:integration_test/integration_test.dart';
 
 void main() {
-  // IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   enableFlutterDriverExtension();
 
   group('auth test group ', () {
