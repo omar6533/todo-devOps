@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_navigation/src/routes/circular_reveal_clipper.dart';
 import 'package:mytodo/controllers/auth/signin_controller.dart';
 import 'package:mytodo/screens/auth/singup.dart';
 import 'package:mytodo/screens/home/home.dart';
 import 'package:mytodo/services/app_snakbar.dart';
+import 'package:mytodo/services/loading.dart';
 import 'package:mytodo/widgets/app_textfiled.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -38,6 +40,7 @@ class SignInScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         AppTextField(
+                            key: const ValueKey('email'),
                             validator: (val) {
                               bool valid = _signinController.isValidEmail(val);
                               if (valid == false) {
@@ -54,6 +57,7 @@ class SignInScreen extends StatelessWidget {
                             textEditingController: _signinController.email),
                         const SizedBox(height: 16),
                         AppTextField(
+                          key: const ValueKey('password'),
                           validator: (val) {
                             bool valid = _signinController.isValidPassword(val);
                             if (valid == false) {
@@ -91,27 +95,30 @@ class SignInScreen extends StatelessWidget {
                         child: const Text('click here'))
                   ],
                 ),
-                GetBuilder<SinginController>(
-                  builder: (controller) => MaterialButton(
-                    textColor: Colors.white,
-                    color: Colors.blue,
-                    onPressed: () async {
-                      var current = formState.currentState;
-                      if (current!.validate()) {
-                        current.save();
-                        UserCredential? response =
-                            await _signinController.signIn(
-                                _signinController.email.text,
-                                _signinController.password.text);
-                        print('23421231234242342342432 $response');
-                        if (response != null) {
-                          Get.off(Home());
-                        }
+                MaterialButton(
+                  key: ValueKey('login'),
+                  textColor: Colors.white,
+                  color: Colors.blue,
+                  onPressed: () async {
+                    var current = formState.currentState;
+                    if (current!.validate()) {
+                      current.save();
+
+                      showLoading(context);
+                      var response = await _signinController.signIn(
+                          _signinController.email.text,
+                          _signinController.password.text);
+                      closeLoding();
+
+                      // ignore: avoid_print
+
+                      if (response != null) {
+                        Get.offAll(Home());
                       }
-                    },
-                    child: const Text('Sign in'),
-                  ),
-                )
+                    }
+                  },
+                  child: const Text('Sign in'),
+                ),
               ])),
         ),
       ),
