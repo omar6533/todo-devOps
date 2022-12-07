@@ -89,18 +89,21 @@ class SignUpScreen extends StatelessWidget {
                     if (current!.validate()) {
                       current.save();
                       showLoading(context);
-                      UserCredential response = await _singUpController.singUp(
+                      // var response = await _singUpController.singUp(
+                      //     _singUpController.email.text,
+                      //     _singUpController.password.text);
+                      var response = _singUpController.singUp(
                           _singUpController.email.text,
                           _singUpController.password.text);
                       closeLoding();
                       // ignore: avoid_print
-                      print('---------------$response');
+                      print(
+                          '---------current response in the sign up page------$response');
 
                       // ignore: unnecessary_null_comparison
                       if (response != null) {
                         // ignore: avoid_print
-                        print(
-                            '-------------------------------${response.user}');
+
                         appSnackBar('thank you!', 'your account was created',
                             Colors.green);
                         Get.to(SignInScreen());

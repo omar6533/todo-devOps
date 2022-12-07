@@ -41,11 +41,13 @@ class SignUpController extends GetxController {
 
   singUp(String email, String password) async {
     try {
+      print('in the sign up contorller ');
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      print('cridintaion::-----------------------${credential.credential}');
       return credential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
