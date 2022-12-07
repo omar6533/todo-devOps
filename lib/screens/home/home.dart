@@ -136,11 +136,7 @@ class _HomeState extends State<Home> {
                           margin: const EdgeInsets.all(8),
                           child: ListTile(
                             iconColor: Colors.green,
-                            leading: Row(
-                              children: [
-                                Icon(Icons.note),
-                              ],
-                            ),
+                            leading: Icon(Icons.update),
                             title: Text(
                               'new note',
                               style: TextStyle(color: Colors.black),

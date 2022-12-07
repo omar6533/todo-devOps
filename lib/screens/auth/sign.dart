@@ -29,7 +29,7 @@ class SignInScreen extends StatelessWidget {
                   'Sign in ',
                   style: TextStyle(
                       fontSize: 24,
-                      color: Colors.blue,
+                      color: Colors.green,
                       fontWeight: FontWeight.w800),
                 ),
                 const SizedBox(
@@ -85,7 +85,7 @@ class SignInScreen extends StatelessWidget {
                       "don't have an account? ",
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.blue,
+                        color: Colors.green,
                       ),
                     ),
                     TextButton(
@@ -98,7 +98,7 @@ class SignInScreen extends StatelessWidget {
                 MaterialButton(
                   key: ValueKey('login'),
                   textColor: Colors.white,
-                  color: Colors.blue,
+                  color: Colors.green,
                   onPressed: () async {
                     var current = formState.currentState;
                     if (current!.validate()) {
@@ -111,10 +111,7 @@ class SignInScreen extends StatelessWidget {
                       closeLoding();
 
                       // ignore: avoid_print
-
-                      if (response != null) {
-                        Get.offAll(Home());
-                      }
+                      Get.offAll(Home());
                     }
                   },
                   child: const Text('Sign in'),

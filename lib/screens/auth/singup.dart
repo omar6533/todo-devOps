@@ -27,7 +27,7 @@ class SignUpScreen extends StatelessWidget {
                   'Sign up screen ',
                   style: TextStyle(
                       fontSize: 24,
-                      color: Colors.blue,
+                      color: Colors.green,
                       fontWeight: FontWeight.w800),
                 ),
                 const SizedBox(
@@ -83,7 +83,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 MaterialButton(
                   textColor: Colors.white,
-                  color: Colors.blue,
+                  color: Colors.green,
                   onPressed: () async {
                     var current = formState.currentState;
                     if (current!.validate()) {

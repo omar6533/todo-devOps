@@ -32,6 +32,6 @@ class AppTextField extends StatelessWidget {
             suffixIcon: rightIcon,
             hintText: hinttext,
             enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue))));
+                borderSide: BorderSide(color: Colors.green))));
   }
 }
