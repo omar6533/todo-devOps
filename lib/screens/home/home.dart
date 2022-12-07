@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.symmetric(horizontal: 19),
               child: IconButton(
                 onPressed: () async {
-                  // _singInController.singOut();
+                  _singInController.singOut();
                 },
                 icon: Icon(Icons.logout),
               ))
@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
                       const Text(
                         'Hello',
                         style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.green,
                             fontSize: 20,
                             fontWeight: FontWeight.w800),
                       ),
@@ -135,8 +135,12 @@ class _HomeState extends State<Home> {
                           ),
                           margin: const EdgeInsets.all(8),
                           child: ListTile(
-                            iconColor: Colors.blue,
-                            leading: Icon(Icons.note),
+                            iconColor: Colors.green,
+                            leading: Row(
+                              children: [
+                                Icon(Icons.note),
+                              ],
+                            ),
                             title: Text(
                               'new note',
                               style: TextStyle(color: Colors.black),

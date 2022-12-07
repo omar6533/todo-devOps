@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData.dark(),
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: SignInScreen(),
     );
