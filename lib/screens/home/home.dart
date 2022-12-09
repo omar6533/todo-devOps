@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -124,31 +125,51 @@ class _HomeState extends State<Home> {
                   ),
                   GetBuilder<HomeController>(
                     builder: (controller) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: 5,
-                        itemBuilder: (context, index) => Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            // color: Colors.blue,
-                          ),
-                          margin: const EdgeInsets.all(8),
-                          child: ListTile(
-                            iconColor: Colors.green,
-                            leading: Icon(Icons.update),
-                            title: Text(
-                              'new note',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            trailing: IconButton(
-                                onPressed: () {
-                                  print('object');
+                      return StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('ToDo')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return const Text('Something went wrong');
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else if (snapshot.hasData) {
+                              return ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: snapshot.data?.docs.length,
+                                itemBuilder: (context, i) {
+                                  DocumentSnapshot documentSnapshot = snapshot
+                                      .data
+                                      ?.docs[i] as DocumentSnapshot<Object?>;
+
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(12),
+                                      // color: Colors.blue,
+                                    ),
+                                    margin: const EdgeInsets.all(8),
+                                    child: ListTile(
+                                      iconColor: Colors.green,
+                                      leading: const Icon(Icons.update),
+                                      title: Text(
+                                        documentSnapshot['note'],
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                      ),
+                                      trailing: IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(Icons.delete)),
+                                    ),
+                                  );
                                 },
-                                icon: Icon(Icons.delete)),
-                          ),
-                        ),
-                      );
+                              );
+                            }
+                            return const SizedBox();
+                          });
                     },
                   )
                 ],

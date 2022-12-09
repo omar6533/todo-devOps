@@ -8,6 +8,9 @@ import 'package:mytodo/services/app_snakbar.dart';
 
 class HomeController extends GetxController {
   TextEditingController textEditingControllerNote = TextEditingController();
+  Stream snapshotStream =
+      FirebaseFirestore.instance.collection('ToDo').snapshots();
+
   late String curretUserEail;
   SinginController _singinController = Get.find();
 
